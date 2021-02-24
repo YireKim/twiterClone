@@ -1,5 +1,3 @@
-'use strict';
-
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -36,7 +34,7 @@ app.use("/logout", logoutRoute);
 
 app.get("/", middleware.requireLogin, (req, res, next) => {
 
-    var payload = {
+    const payload = {
         pageTitle: "Home",
         userLoggedIn: req.session.user,
     }

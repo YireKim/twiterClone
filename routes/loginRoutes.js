@@ -1,5 +1,3 @@
-'use strict';
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -12,16 +10,14 @@ app.set("views", "views");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/", (req, res, next) => {
-    res.status(200).render("login");
-})
+router.get("/", (req, res, next) => res.status(200).render("login"))
 
 router.post("/",async (req, res, next) => {
 
-    let payload = req.body;
+    const payload = req.body;
 
     if(payload.logUsername && payload.logPassword) {
-        let searchedUser = await User.findOne({
+        const searchedUser = await User.findOne({
             $or: [
                 { username: payload.logUsername },
                 { password: payload.logPassword },
@@ -33,7 +29,7 @@ router.post("/",async (req, res, next) => {
         })
 
         if(searchedUser != null) {
-            let result = await bcrypt.compare(req.body.logPassword, searchedUser.password)
+            let result = await bcrypt.compare(req.body.logPassword, searchedUser.password);
 
             if(result === true) {
                 req.session.user = searchedUser;
